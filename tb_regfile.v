@@ -64,9 +64,9 @@ module tb_regfile;
         $display("START UNIT TEST FOR REGFILE");
         $display("========================================");
 
-        // =========================================================
+        
+
         // TEST 1: Sau khi khởi tạo, tất cả thanh ghi đều = 0
-        // =========================================================
         #1;
         addr_a = 5'd1;
         addr_b = 5'd2;
@@ -80,18 +80,18 @@ module tb_regfile;
         check_equal(data_a, 32'd0, "Initial value of x10 must be 0");
         check_equal(data_b, 32'd0, "Initial value of x31 must be 0");
 
-        // =========================================================
+
+
         // TEST 2: x0 luôn đọc ra 0
-        // =========================================================
         addr_a = 5'd0;
         addr_b = 5'd0;
         #1;
         check_equal(data_a, 32'd0, "Read x0 on port A");
         check_equal(data_b, 32'd0, "Read x0 on port B");
 
-        // =========================================================
+
+
         // TEST 3: Ghi vào một thanh ghi bình thường
-        // =========================================================
         we     = 1'b1;
         addr_d = 5'd5;
         data_d = 32'h12345678;
@@ -104,9 +104,10 @@ module tb_regfile;
         #1;
         check_equal(data_a, 32'h12345678, "Write x5 = 0x12345678");
 
-        // =========================================================
+
+
+
         // TEST 4: Ghi đồng thời, đọc từ cổng B
-        // =========================================================
         we     = 1'b1;
         addr_d = 5'd12;
         data_d = 32'hA5A5F0F0;
@@ -119,9 +120,9 @@ module tb_regfile;
         #1;
         check_equal(data_b, 32'hA5A5F0F0, "Write x12 = 0xA5A5F0F0 and read from port B");
 
-        // =========================================================
+
+
         // TEST 5: we = 0 thì không được ghi
-        // =========================================================
         addr_a = 5'd8;
         #1;
         check_equal(data_a, 32'd0, "Before no-write test, x8 must be 0");
@@ -137,9 +138,9 @@ module tb_regfile;
         #1;
         check_equal(data_a, 32'd0, "x8 must remain 0 when we = 0");
 
-        // =========================================================
+
+
         // TEST 6: Ghi vào x0 phải bị bỏ qua
-        // =========================================================
         we     = 1'b1;
         addr_d = 5'd0;
         data_d = 32'hFFFFFFFF;
@@ -152,9 +153,9 @@ module tb_regfile;
         #1;
         check_equal(data_a, 32'd0, "Write to x0 must be ignored");
 
-        // =========================================================
+
+
         // TEST 7: Đọc đồng thời 2 cổng sau khi đã ghi
-        // =========================================================
         we     = 1'b1;
         addr_d = 5'd3;
         data_d = 32'h000000AA;
@@ -173,9 +174,9 @@ module tb_regfile;
         check_equal(data_a, 32'h000000AA, "Read x3 on port A");
         check_equal(data_b, 32'h00000055, "Read x7 on port B");
 
-        // =========================================================
+
+
         // TEST 8: Reset phải đưa tất cả thanh ghi về 0
-        // =========================================================
         rst = 1'b1;
         @(posedge clk);
         #1;
@@ -197,9 +198,8 @@ module tb_regfile;
         #1;
         check_equal(data_a, 32'd0, "After reset, x0 must still be 0");
 
-        // =========================================================
-        // Tổng kết
-        // =========================================================
+
+
         $display("========================================");
         $display("UNIT TEST FINISHED");
         $display("PASS = %0d", pass_count);
